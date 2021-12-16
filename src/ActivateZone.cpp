@@ -16,40 +16,40 @@ class ActivateZone : public AllCreatureScript
 
         void OnAllCreatureUpdate(Creature* creature, uint32 diff) override
         {
-            SetActiveCreature(creature);
+            if (!sWorld->getBoolConfig(CONFIG_SET_ALL_CREATURES_WITH_WAYPOINT_MOVEMENT_ACTIVE))
+            {
+                if (creature->GetMapId() != 0 && creature->GetMapId() != 1 && creature->GetMapId() != 530 && creature->GetMapId() != 571)
+                    return;
+
+                CreatureAddon const* cainfo = creature->GetCreatureAddon();
+
+                time += diff;
+
+                if (sWorld->FindPlayerInZone(creature->GetZoneId()))
+                {
+                    if (time > delay)
+                    {
+                        if (cainfo->path_id != 0)
+                        {
+                            creature->setActive(true);
+                        }
+                    }
+                }
+                else
+                {
+                    if (cainfo->path_id != 0)
+                    {
+                        creature->setActive(false);
+                    }
+                }
+
+                time = 0;
+            }
         }
 
     private:
-        void SetActiveCreature(Creature* creature)
-        {
-            if (!creature)
-                return;
-
-            if (creature->GetMapId() != 0 && creature->GetMapId() != 1 && creature->GetMapId() != 530 && creature->GetMapId() != 571)
-                return;
-
-            if (!creature->GetZoneId())
-                return;
-
-            if (sWorld->FindPlayerInZone(creature->GetZoneId()))
-            {
-                if (!creature->CustomData.GetDefault<ActiveCreature>("ActiveCreature")->isActive)
-                {
-                    creature->CustomData.Set("ActiveCreature", new ActiveCreature(creature->GetGUID()));
-                    creature->setActive(true);
-                    //LOG_INFO("server.loading", "Creature %s (zone: %u) is now active", creature->GetName().c_str(), creature->GetZoneId());
-                }
-            }
-            else
-            {
-                if (creature->CustomData.GetDefault<ActiveCreature>("ActiveCreature")->isActive)
-                {
-                    creature->CustomData.GetDefault<ActiveCreature>("ActiveCreature")->isActive = false;
-                    creature->setActive(false);
-                    //LOG_INFO("server.loading", "Creature %s (zone: %u) is no longer active", creature->GetName().c_str(), creature->GetZoneId());
-                }
-            }
-        }
+        uint32 time = 0;
+        uint32 delay = 60 * 1000;
 };
 
 void AddActivateZonesScripts()
