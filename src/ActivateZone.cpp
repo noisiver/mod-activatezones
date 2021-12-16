@@ -1,13 +1,4 @@
-#include "Config.h"
 #include "ScriptMgr.h"
-
-class ActiveCreature : public DataMap::Base
-{
-    public:
-        ActiveCreature() {}
-        ActiveCreature(bool isActive) : isActive(isActive) {}
-        bool isActive = false;
-};
 
 class ActivateZone : public AllCreatureScript
 {
