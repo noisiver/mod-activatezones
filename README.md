@@ -6,6 +6,8 @@ The module will set creatures in zones that have players in them as active.
 
 This is a little like _SetAllCreaturesWithWaypointMovementActive_ but limited to specific zones.
 
+It only works in Eastern Kingdoms, Kalimdor, Outland and Northrend and it requires the _PreloadAllNonInstancedMapGrids_ config option to be enabled.
+
 # Additional information
 This module is part of my collection of modules.
 
