@@ -18,29 +18,33 @@ class ActivateZone : public AllCreatureScript
                 if (!creature->IsAlive())
                     return;
 
-                CreatureAddon const* cainfo = creature->GetCreatureAddon();
-
                 time += diff;
 
-                if (sWorld->FindPlayerInZone(creature->GetZoneId()))
+                if (time > delay)
                 {
-                    if (time > delay)
-                    {
-                        if (cainfo->path_id != 0)
-                            creature->setActive(true);
+                    CreatureAddon const* cainfo = creature->GetCreatureAddon();
 
-                        time = 0;
-                    }
-                }
-                else
-                {
-                    if (time > delay)
+                    if (cainfo->path_id != 0)
                     {
-                        if (cainfo->path_id != 0)
-                            creature->setActive(false);
-
-                        time = 0;
+                        if (sWorld->FindPlayerInZone(creature->GetZoneId()))
+                        {
+                            if (!creature->isActiveObject())
+                            {
+                                creature->setActive(true);
+                                // LOG_INFO("server.loading", "Creature %s (zone: %u) is now active", creature->GetName().c_str(), creature->GetZoneId());
+                            }
+                        }
+                        else
+                        {
+                            if (creature->isActiveObject())
+                            {
+                                creature->setActive(false);
+                                // LOG_INFO("server.loading", "Creature %s (zone: %u) is no longer active", creature->GetName().c_str(), creature->GetZoneId());
+                            }
+                        }
                     }
+
+                    time = 0;
                 }
             }
         }
