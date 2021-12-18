@@ -15,6 +15,9 @@ class ActivateZone : public AllCreatureScript
                 if (creature->IsSummon() || creature->IsPet() || creature->IsHunterPet() || creature->IsTotem())
                     return;
 
+                if (!creature->IsAlive())
+                    return;
+
                 CreatureAddon const* cainfo = creature->GetCreatureAddon();
 
                 time += diff;
