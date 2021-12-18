@@ -8,6 +8,9 @@ This is a little like _SetAllCreaturesWithWaypointMovementActive_ but limited to
 
 It only works in Eastern Kingdoms, Kalimdor, Outland and Northrend and it requires the _PreloadAllNonInstancedMapGrids_ config option to be enabled.
 
+# Important information
+This module is currently broken and causes segmentation fault on startup. I don't have the time or energy to fix it for the time being and will get back to it eventually.
+
 # Additional information
 This module is part of my collection of modules.
 
