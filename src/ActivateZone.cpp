@@ -8,10 +8,10 @@ class ActivateCreature : public DataMap::Base
         bool isActive = false;
 };
 
-class ActivateZone : public AllCreatureScript
+class ActivateZoneAllCreature : public AllCreatureScript
 {
     public:
-        ActivateZone() : AllCreatureScript("ActivateZone") {}
+        ActivateZoneAllCreature() : AllCreatureScript("ActivateZoneAllCreature") {}
 
         void OnAllCreatureUpdate(Creature* creature, uint32 diff) override
         {
@@ -50,5 +50,5 @@ class ActivateZone : public AllCreatureScript
 
 void AddActivateZonesScripts()
 {
-    new ActivateZone();
+    new ActivateZoneAllCreature();
 }
